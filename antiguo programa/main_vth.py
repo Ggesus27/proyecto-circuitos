@@ -4,11 +4,11 @@ from warningV import checkV, crashV
 from warningI import checkI, crashI
 from warningZ import checkZ, crashZ
 from crash import crashProgram
-from out import generateOutputVI, generateOutputZ, writeSheetVI, writeSheetZ, storeNodesVI, storeNodesZ, storeVI, storeZ
+
 from openpyxl import Workbook
 import openpyxl
 import math
-
+#esto es un comentario
 book = openpyxl.load_workbook(r'C:\Users\pc\OneDrive\Escritorio\data_io.xlsx')
 write = Workbook()
 excel_input = openpyxl.load_workbook(r'C:\Users\pc\OneDrive\Escritorio\data_io.xlsx')
@@ -52,21 +52,6 @@ if crashProgram(cv, ci, cz) == 1:
     print('ERROR(!): Existen argumentos invalidos en la hoja de datos')
     exit(1)
 
-generateOutputVI(output, write, out1, out2)
-generateOutputZ(output, write, out3)
-
-storeNodesVI(nodesv, sheetV, sheetV.max_row)
-storeVI(zv, Ze, Zr, Zl, Zc, w, sheetV, sheetV.max_row)
-
-storeNodesVI(nodesi, sheetI, sheetI.max_row)
-storeVI(zi, Ze, Zr, Zl, Zc, w, sheetI, sheetI.max_row)
-
-storeNodesZ(nodesz, sheetZ, sheetZ.max_row)
-storeZ(z, Ze, Zr, Zl, Zc, w, sheetZ, sheetZ.max_row)
-
-writeSheetVI(zv, nodesv, output, write, out1)
-writeSheetVI(zi, nodesi, output, write, out2)
-writeSheetZ(z, nodesz, output, write, out3)
 
 # calculate current/voltaje source's RMS value with phase current value
 def calc_angle_img(number):  

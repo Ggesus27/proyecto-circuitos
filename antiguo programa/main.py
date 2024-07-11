@@ -4,7 +4,7 @@ from warningV import checkV, crashV
 from warningI import checkI, crashI
 from warningZ import checkZ, crashZ
 from crash import crashProgram
-from out import generateOutputVI, generateOutputZ, generateOutputTH, generateOutputSZ, generateOutputBZ
+
 from store import storeNodesVI, storeNodesZ, storeVI, storeZ, storeF
 from write import writeSheetVI, writeSheetZ
 from openpyxl import Workbook
@@ -58,13 +58,6 @@ cz = crashZ(book, sheetZ, sheetZ.max_row)
 if crashProgram(cv, ci, cz) == 1:
     print('ERROR(!): Existen argumentos invalidos en la hoja de datos')
     exit(1)
-
-generateOutputVI(output, write, out1, out2)
-generateOutputZ(output, write, out3)
-generateOutputTH(output, write, out4)
-generateOutputSZ(output, write, out5)
-generateOutputBZ(output, write, out6)
-
 storeNodesVI(nodesv, sheetV, sheetV.max_row)
 storeVI(zv, Ze, Zr, Zl, Zc, w, sheetV, sheetV.max_row)
 storeF(fv, sheetV, w, sheetV.max_row)

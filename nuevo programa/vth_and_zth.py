@@ -67,7 +67,7 @@ def thevenin(matriz_a,matriz_b,canti_nodos): #calcula voltaje y resistencia de t
     Zth=[]
     for x in range(canti_nodos):
         Zth.append(matriz_i[x][x])
-    Vth=np.dot(matriz_b,matriz_i)
+    Vth=np.dot(matriz_i,matriz_b)
     return Zth, Vth
 
 def guardar_thevenin(Zth, Vth, book):#guarda los datos en el archivo de excel
@@ -79,4 +79,4 @@ def guardar_thevenin(Zth, Vth, book):#guarda los datos en el archivo de excel
         sheet[f'E{x+2}'].value=Zth[x].imag
     book.save('prueba.xlsx')
 book=px.load_workbook('data_io.xlsx')
-guardar_thevenin([complex(12,-24)],[complex(54.74728,-15.52536)],book)
+

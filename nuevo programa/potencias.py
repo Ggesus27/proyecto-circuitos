@@ -1,12 +1,17 @@
-def calcular_potencias(workbook):
-    sheet_fuentes = workbook['S_fuente']
-    for row in sheet_fuentes.iter_rows(min_row=2, values_only=False):
-        nodo, potencia = row[0].value, row[1].value
-        # Calcular la potencia de las fuentes
-        sheet_fuentes.cell(row=row[0].row, column=3, value=potencia)  # Ejemplo de cálculo
+lista=[[1,2,5],[2,3,3]]
+#colummna 1 nodo i, columna 2 nodo j, columna 3 impedancia
+vth=[1,2,3,54]
+potencias=[]
+for x in lista:
+    pot=(vth[x[0]-1]-vth[x[1]-1])**2/x[2]
+    potencias.append([x[0],x[1],pot])
 
-    sheet_impedancias = workbook['S_Z']
-    for row in sheet_impedancias.iter_rows(min_row=2, values_only=False):
-        nodo, impedancia = row[0].value, row[1].value
-        # Calcular la potencia de las impedancias
-        sheet_impedancias.cell(row=row[0].row, column=3, value=impedancia)  # Ejemplo de cálculo
+(vf-vth)*vf/z
+
+vf=[[1,100,5],[2,355,23]]
+#columna 1 nodo, columna 2 voltaje, columna 3 impedancia
+vth[x[0]-1]*(vf[x[0]]-vth[x[0]-1])/vf[2] #cmath
+
+vth*i #conjugado
+def funcion(impedancias, vth, vfuente, ifuente):
+    

@@ -25,19 +25,19 @@ def Cantidad_nodos(nodos):#esta funcion devuelve la cantidad de nodos que hay en
 def matriz(canti_nodos,Y): #calcula la matriz de admitancias
     fila=[]
     matriz_y=[]
-    for x in range(1,canti_nodos):
-        for n in range(1,canti_nodos):
+    for x in range(canti_nodos):
+        for n in range(canti_nodos):
             b=0
             for m in Y:
                 if x!=n:
-                    if m[0]==n and m[1]==x:
+                    if m[0]==n+1 and m[1]==x+1:
                         fila.append(-1*m[2])
                         break
-                    elif m[0]==x and m[1]==n:
+                    elif m[0]==x+1 and m[1]==n+1:
                         fila.append(-1*m[2])
                         break
                 else:
-                    fila.append(suma_matriz(n,Y))
+                    fila.append(suma_matriz(n+1,Y))
                     break
                 b+=1
             if b==len(Y):

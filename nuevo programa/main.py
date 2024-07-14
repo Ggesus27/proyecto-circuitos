@@ -1,6 +1,6 @@
 import openpyxl
 import impedancias
-import vth_and_zth
+import vth_and_zth as th
 import potencias
 import balance
 import alertas
@@ -20,18 +20,17 @@ def main():
         return
 
     # Leer y verificar datos de entrada
-    f_and_output_sheet = workbook['f_and_output']
+    f_and_output_sheet = workbook['f_and_ouput']
     alertas.verificar_datos(workbook, f_and_output_sheet)
     
     # Calcular impedancias y convertir a fasores
-    impedancias.calcular_impedancias(workbook)
+    Z=impedancias.calcular_impedancias(workbook)
+
+    #calcular conductancia
+    Y=[]
+    for x in Z:
+        Y.append(1/Z)
     
-    # Calcular voltajes, corrientes, y el equivalente de Thevenin
-    vth_and_zth.calcular_vth_zth(workbook)
-    
-    # Calcular potencias y el balance de potencias
-    potencias.calcular_potencias(workbook)
-    balance.calcular_balance(workbook)
     
     # Guardar resultados en el archivo Excel
     workbook.save('data_io_output.xlsx')

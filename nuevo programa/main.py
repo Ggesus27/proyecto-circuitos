@@ -1,8 +1,8 @@
 import openpyxl
 import impedancias
 import vth_and_zth as th
-import potencias
-import balance
+from v_fuente import calcular_voltajes_fuente as cal_vol
+from I_fuente import calcular_corrientes_fuente as cal_co
 import alertas
 
 def main():
@@ -19,21 +19,24 @@ def main():
         print("Error: No se tienen permisos para acceder al archivo.")
         return
 
-    # Leer y verificar datos de entrada
-    f_and_output_sheet = workbook['f_and_ouput']
-    alertas.verificar_datos(workbook, f_and_output_sheet)
-    
-    # Calcular impedancias y convertir a fasores
-    Z=impedancias.calcular_impedancias(workbook)
+    try:
+        # Leer y verificar datos de entrada
+        alertas.verificar_fuentes_y_impedancias(workbook)
+        
+        # Calcular impedancias y convertir a fasores
+        Z = impedancias.calcular_impedancias(workbook)
+        v_fuente = cal_vol(workbook, 60)
+        i_fuente = cal_co(workbook, 60)
 
-    #calcular conductancia
-    Y=[]
-    for x in Z:
-        Y.append(1/Z)
-    
-    
-    # Guardar resultados en el archivo Excel
-    workbook.save('data_io_output.xlsx')
+        # Calcular admitancia
+        Y = []
+        for x in Z:
+            Y.append([x[0], x[1], 1 / x[2]])
+        
+        # Guardar resultados en el archivo Excel
+        workbook.save('data_io_output.xlsx')
+    except ValueError as e:
+        print(e)
 
 if __name__ == '__main__':
     main()

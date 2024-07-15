@@ -1,5 +1,5 @@
 import numpy as np
-import openpyxl as px
+import openpyxl
 import cmath
         
 def Cantidad_nodos(nodos):#esta funcion devuelve la cantidad de nodos que hay en el problema
@@ -15,23 +15,27 @@ def Cantidad_nodos(nodos):#esta funcion devuelve la cantidad de nodos que hay en
 def matriz_a(canti_nodos,Y): #calcula la matriz de admitancias
     fila=[]
     matriz_y=[]
+    b=0
     for x in range(canti_nodos):
         for n in range(canti_nodos):
-            b=0
+            valor=0
             for m in Y:
                 if x!=n:
                     if m[0]==n+1 and m[1]==x+1:
-                        fila.append(-1*m[2])
-                        break
+                        valor-=m[2]
+                        continue
                     elif m[0]==x+1 and m[1]==n+1:
-                        fila.append(-1*m[2])
-                        break
+                        valor-=m[2]
+                        continue
                 else:
                     fila.append(suma_matriz(n+1,Y))
                     break
                 b+=1
             if b==len(Y):
-                fila.append(0)       
+                fila.append(0)
+            elif b!=0:
+                fila.append(valor)      
+            b=0 
         matriz_y.append(fila)
         fila=[]
     return matriz_y
@@ -70,13 +74,13 @@ def thevenin(matriz_a,matriz_b,canti_nodos): #calcula voltaje y resistencia de t
     Vth=np.dot(matriz_i,matriz_b)
     return Zth, Vth
 
-def guardar_thevenin(Zth, Vth, book):#guarda los datos en el archivo de excel
+def guardar_thevenin(Zth, Vth, book,archivo_salida):#guarda los datos en el archivo de excel
     sheet=book['VTH_AND_ZTH']
     for x in range(len(Zth)):
         sheet[f'B{x+2}'].value=abs(Vth[x])
         sheet[f'C{x+2}'].value=cmath.phase(Vth[x])*180/np.pi
         sheet[f'D{x+2}'].value=Zth[x].real
         sheet[f'E{x+2}'].value=Zth[x].imag
-    book.save('prueba.xlsx')
-book=px.load_workbook('data_io.xlsx')
+    book.save(archivo_salida)
+
 

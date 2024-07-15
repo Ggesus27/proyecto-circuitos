@@ -1,45 +1,71 @@
 import numpy as np
 import openpyxl as px
 import cmath
-#Primero hay que llamar los valores
-from impedancias import calcular_impedancias as impedancia
-
-lista=[[1,2,impedancia],[2,3,impedancia]]
-#colummna 1 nodo i, columna 2 nodo j, columna 3 impedancia
-
 
 #Operaciones:
 #1)Potencias de impedancias entre nodos
-def Calcular_potencias_impedancias():
-    vth=[1,2,3,54]
-    potencias_z=[]
-    for x in lista:pot=(vth[x[0]-1]-vth[x[1]-1])**2/x[2]
-    potencias_z.append([x[0],x[1],pot])
-    return potencias_z
-
+def Calcular_potencias_impedancias(vth,impedancias,book,archivo_salida):
+    sheet=book['S_Z']
+    i=2
+    potencia_total=0
+    for x in impedancias:
+      if x[0]!=0 and x[1]!=0:
+        pot=(vth[x[0]-1]-vth[x[1]-1])*(vth[x[0]-1]-vth[x[1]-1]).conjugate()/x[2]
+      elif x[0]!=0:
+        pot=vth[x[0]-1]*(vth[x[0]-1]/x[2]).conjugate()
+      else:
+        pot=vth[x[1]-1]*(vth[x[1]-1]/x[2]).conjugate()
+      sheet[f'A{i}'].value=x[0]
+      sheet[f'B{i}'].value=x[1]
+      sheet[f'C{i}'].value=pot.real
+      sheet[f'D{i}'].value=pot.imag
+      potencia_total+=pot
+      i+=1
+    book.save(archivo_salida)
+    return potencia_total
   #2)Potencia de la fuente
 def Calcular_potencia_voltaje(vth,vf):
-   
-    vth=[1,2,3,54]
-    potencias_v=[]
-    #columna 1 nodo, columna 2 voltaje, columna 3 impedancia
-    for x in lista:pot=vth[x[0]-1]*(vf[x[0]]-vth[x[0]-1])/vf[2]
-    potencias_v.append([x[0],x[1],pot])
-    return potencias_v
-    
+  potencias=[]
+  for x in vf:
+    pot=vth[x[0]-1]*((x[1]-vth[x[0]-1])/x[2]).conjugate()
+    potencias.append([x[0],pot])
+  return potencias
 
-from I_fuente import calcular_corrientes_fuente as I
-#3)Potencia de la fuente de corriente
-i=I
-ic= i.conjugate() #Corriente conjugada
-def calcular_potencia_corriente(vth):
-    potencias_i=[]
-    Pi=vth*ic 
-    potencias_i.append(Pi)
-    return Pi
+  
+  
+def calcular_potencia_corriente(vth,I_fuente):
+  potencias=[]
+  for x in I_fuente:
+    Pi=vth[x[0]-1]*x[1].conjugate() 
+    potencias.append([x[0],Pi])
+  return potencias
 
+def guardar_fuentes(pot_voltaje,pot_corriente,book,archivo_salida):
+  sheet=book['Sfuente']
+  i=2
+  potencia_total=0
+  for x in pot_voltaje:
+    sheet[f'A{i}'].value=x[0]
+    sheet[f'B{i}'].value=x[1].real
+    sheet[f'C{i}'].value=x[1].imag
+    potencia_total+=x[1]
+    i+=1
+  for y in pot_corriente:
+    sheet[f'A{i}'].value=y[0]
+    sheet[f'B{i}'].value=y[1].real
+    sheet[f'C{i}'].value=y[1].imag
+    i+=1
+    potencia_total+=y[1]
+  book.save(archivo_salida)
+  return potencia_total
 
-
-#4)Potencias de impedancias en serie con una fuente:
-  #nose :c
-    
+def balance(p_t_f,p_t_z,book,archivo_salida):
+  sheet=book['Balance_S']
+  sheet['A2'].value=p_t_f.real
+  sheet['B2'].value=p_t_f.imag
+  sheet['C2'].value=p_t_z.real
+  sheet['D2'].value=p_t_z.imag
+  sheet['E2'].value=p_t_f.real-p_t_z.real
+  sheet['F2'].value=abs(p_t_f.imag-p_t_z.imag)
+  book.save(archivo_salida)
+  

@@ -4,7 +4,9 @@ import vth_and_zth as th
 from v_fuente import calcular_voltajes_fuente as cal_vol
 from I_fuente import calcular_corrientes_fuente as cal_co
 import alertas
-
+import numpy as np
+from f_and_output import leer_frecuencia_y_salida as lf
+import potencias
 def main():
     # Especificar la ruta relativa al archivo Excel
     workbook_path = 'data_io.xlsx'
@@ -21,20 +23,36 @@ def main():
 
     try:
         # Leer y verificar datos de entrada
-        alertas.verificar_fuentes_y_impedancias(workbook)
+        #alertas.verificar_fuentes_y_impedancias(workbook)
         
+        frecuencia, archivo_salida=lf(workbook)
         # Calcular impedancias y convertir a fasores
-        Z = impedancias.calcular_impedancias(workbook)
-        v_fuente = cal_vol(workbook, 60)
-        i_fuente = cal_co(workbook, 60)
+        Z = impedancias.calcular_impedancias(workbook,frecuencia)
+        v_fuente = cal_vol(workbook, frecuencia)
+        i_fuente = cal_co(workbook, frecuencia)
 
         # Calcular admitancia
         Y = []
         for x in Z:
             Y.append([x[0], x[1], 1 / x[2]])
+        for x in v_fuente:
+            Y.append([0,x[0],1/x[2]])
+        for x in i_fuente:
+            Y.append([0,x[0],1/x[2]])
+        #calculando thevenin
+        cant_nodos=th.Cantidad_nodos(Y)
+        Matriz_admitancias=th.matriz_a(cant_nodos,Y)
+        matriz_resultados=th.matriz_b(i_fuente,cant_nodos,v_fuente)
+        Zth,Vth=th.thevenin(Matriz_admitancias,matriz_resultados,cant_nodos)
+        th.guardar_thevenin(Zth,Vth,workbook,archivo_salida)
         
-        # Guardar resultados en el archivo Excel
-        workbook.save('data_io_output.xlsx')
+        book=openpyxl.load_workbook(archivo_salida)
+        #calculando potencias
+        p_t_z=potencias.Calcular_potencias_impedancias(Vth,Z,book,archivo_salida)
+        book=openpyxl.load_workbook(archivo_salida)
+        p_t_f=potencias.guardar_fuentes(potencias.Calcular_potencia_voltaje(Vth,v_fuente),potencias.calcular_potencia_corriente(Vth,i_fuente),book,archivo_salida)
+        potencias.balance(p_t_f,p_t_z,book,archivo_salida)
+        
     except ValueError as e:
         print(e)
 

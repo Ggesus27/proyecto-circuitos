@@ -1,8 +1,8 @@
 import openpyxl
 import impedancias
 import vth_and_zth as th
-import potencias
-import balance
+from v_fuente import calcular_voltajes_fuente as cal_vol
+from I_fuente import calcular_corrientes_fuente as cal_co
 import alertas
 
 def main():
@@ -25,11 +25,13 @@ def main():
     
     # Calcular impedancias y convertir a fasores
     Z=impedancias.calcular_impedancias(workbook)
-
-    #calcular conductancia
+    v_fuente=cal_vol(workbook,60)
+    i_fuente=cal_co(workbook,60)
+    print(v_fuente, i_fuente)
+    #calcular admitancia
     Y=[]
     for x in Z:
-        Y.append(1/Z)
+        Y.append([x[0],x[1],1/x[2]])
     
     
     # Guardar resultados en el archivo Excel

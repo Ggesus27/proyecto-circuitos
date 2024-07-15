@@ -1,7 +1,7 @@
 import numpy as np
 from openpyxl import load_workbook
 
-def calcular_impedancias(workbook):
+def calcular_impedancias(workbook,frecuencia):
     sheet = workbook['Z']
     warnings = []
     impedancia=[]
@@ -23,9 +23,9 @@ def calcular_impedancias(workbook):
 
         try:
             if C == 0:
-                Z = complex(R, 2 * np.pi * L*10**-3)  # Evitar la división por cero
+                Z = complex(R, 2 * np.pi*frecuencia * L*10**-3)  # Evitar la división por cero
             else:
-                Z = complex(R,((2 * np.pi * L *10**-3) - (1 / (2 * np.pi * C*10**-6))))
+                Z = complex(R,((2 * np.pi * L*frecuencia *10**-3) - (1 / (2 * np.pi *frecuencia* C*10**-6))))
         except ZeroDivisionError:
             warnings.append(f"Fila {i}: División por cero detectada en el cálculo de Z.")
             break
@@ -41,5 +41,3 @@ def calcular_impedancias(workbook):
         #raise ValueError("Se encontraron problemas en los datos de entrada. Verifique la hoja 'Warnings' para más detalles.")
     return impedancia
 # Cargar el archivo Excel y llamar a la función
-workbook = load_workbook('data_io.xlsx')
-calcular_impedancias(workbook)

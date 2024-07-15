@@ -16,7 +16,7 @@ def calcular_corrientes_fuente(workbook,frecuencia):
             continue  # O manejar el error de otra manera
         L = (L if L is not None else 0) * 1e-3  # mili
         C = (C if C is not None else 0) * 1e-6  # micro
-        impedancia = R + 1j * ((2 * cmath.pi * L*10**-3) - (1 / (2 * cmath.pi * C*10**-6)))
+        impedancia = R + 1j * ((2 * cmath.pi *frecuencia* L) - (1 / (2 * cmath.pi*frecuencia * C)))
         angulo_fase = 2 * cmath.pi * frecuencia* corrimiento_onda
         corriente = pico_corriente*complex(cmath.cos(angulo_fase),cmath.sin(angulo_fase))/cmath.sqrt(2)
         corrientes_fuentes.append((nodo_referencia, corriente,impedancia))

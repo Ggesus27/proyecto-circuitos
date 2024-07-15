@@ -24,7 +24,7 @@ def main():
     alertas.verificar_datos(workbook, f_and_output_sheet)
     
     # Calcular impedancias y convertir a fasores
-    Z=impedancias.calcular_impedancias(workbook)
+    Z=impedancias.calcular_impedancias(workbook,60)
     v_fuente=cal_vol(workbook,60)
     i_fuente=cal_co(workbook,60)
     print(v_fuente, i_fuente)

@@ -23,9 +23,9 @@ def calcular_impedancias(workbook):
 
         try:
             if C == 0:
-                Z = complex(R, 2 * np.pi * L)  # Evitar la división por cero
+                Z = complex(R, 2 * np.pi * L*10**-3)  # Evitar la división por cero
             else:
-                Z = complex(R, 2 * np.pi * L - 1 / (2 * np.pi * C))
+                Z = complex(R,((2 * np.pi * L *10**-3) - (1 / (2 * np.pi * C*10**-6))))
         except ZeroDivisionError:
             warnings.append(f"Fila {i}: División por cero detectada en el cálculo de Z.")
             break

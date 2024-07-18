@@ -3,7 +3,7 @@ def verificar_fuentes(sheet):
     i=2
     while sheet[f'A{i}'].value!=None or sheet[f'C{i}'].value!=None or sheet[f'D{i}'].value!=None or sheet[f'E{i}'].value!=None or sheet[f'F{i}'].value!=None or sheet[f'Z{i}'].value!=None:
         if sheet[f'E{i}'].value==None and sheet[f'F{i}'].value==None and sheet[f'Z{i}'].value==None:
-            sheet[f'E{i}'].value=10**-6
+            sheet[f'E{i}'].value=0
             sheet[f'F{i}'].value=0
             sheet[f'Z{i}'].value=0
             sheet[f'B{i}'].value="se asume impedancia igual a cero"
@@ -84,7 +84,7 @@ def verificar_impedancias(sheet):
     while sheet[f'A{i}'].value!=None or sheet[f'B{i}'].value!=None or sheet[f'D{i}'].value!=None or sheet[f'E{i}'].value!=None or sheet[f'F{i}'].value!=None:
 
         if sheet[f'D{i}'].value==None and sheet[f'E{i}'].value==None and sheet[f'F{i}'].value==None:
-            sheet[f'D{i}'].value=10**-6
+            sheet[f'D{i}'].value=0
             sheet[f'E{i}'].value=0
             sheet[f'F{i}'].value=0
             sheet[f'C{i}'].value="se asume impedancia igual a cero"

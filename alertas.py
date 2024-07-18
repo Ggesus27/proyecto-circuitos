@@ -31,9 +31,7 @@ def verificar_fuentes(sheet):
             sheet[f'B{i}'].value="ok"
         
         
-        if sheet[f'A{i}'].value<=0:
-            sheet[f'B{i}'].value="Error en el valor del nodo, debe ser mayor o igual a 1"
-            return 1
+
         if sheet[f'A{i}'].value==None:
             sheet[f'B{i}'].value="falta valor del nodo"
             return 1
@@ -60,6 +58,9 @@ def verificar_fuentes(sheet):
             return 1
         if type(sheet[f'Z{i}'].value)!=type(2.5) and type(sheet[f'Z{i}'].value)!=type(2):
             sheet[f'B{i}'].value="Error en el valor de la capacitancia, debe ser un numero"
+            return 1
+        if sheet[f'A{i}'].value<=0:
+            sheet[f'B{i}'].value="Error en el valor del nodo, debe ser mayor o igual a 1"
             return 1
         if sheet[f'E{i}'].value<0:
             sheet[f'B{i}'].value="Error en el valor de la resistencia, debe ser un valor positivo"
@@ -123,7 +124,15 @@ def verificar_impedancias(sheet):
         if type(sheet[f'B{i}'].value)!=type(2):
             sheet[f'C{i}'].value="Error en el valor del nodo, debe ser un numero entero"
             return 1
-       
+        if type(sheet[f'D{i}'].value)!=type(2.5) and type(sheet[f'D{i}'].value)!=type(2):
+            sheet[f'C{i}'].value="Error en el valor de la resistencia, debe ser un numero"
+            return 1
+        if type(sheet[f'E{i}'].value)!=type(2.5) and type(sheet[f'E{i}'].value)!=type(2):
+            sheet[f'C{i}'].value="Error en el valor de la inductanicia, debe ser un numero"
+            return 1
+        if type(sheet[f'F{i}'].value)!=type(2.5) and type(sheet[f'F{i}'].value)!=type(2):
+            sheet[f'C{i}'].value="Error en la capacitancia, debe ser un numero"
+            return 1
         if sheet[f'A{i}'].value<0:
             sheet[f'C{i}'].value="Error en el valor del nodo, debe ser mayor o igual a cero"
             return 1
@@ -139,15 +148,7 @@ def verificar_impedancias(sheet):
         if sheet[f'F{i}'].value<0:
             sheet[f'C{i}'].value="Error en el valor de la capacitancia, debe ser un valor positivo"
             return 1
-        if type(sheet[f'D{i}'].value)!=type(2.5) and type(sheet[f'D{i}'].value)!=type(2):
-            sheet[f'C{i}'].value="Error en el valor de la resistencia, debe ser un numero"
-            return 1
-        if type(sheet[f'E{i}'].value)!=type(2.5) and type(sheet[f'E{i}'].value)!=type(2):
-            sheet[f'C{i}'].value="Error en el valor de la inductanicia, debe ser un numero"
-            return 1
-        if type(sheet[f'F{i}'].value)!=type(2.5) and type(sheet[f'F{i}'].value)!=type(2):
-            sheet[f'C{i}'].value="Error en la capacitancia, debe ser un numero"
-            return 1
+
 
         
 

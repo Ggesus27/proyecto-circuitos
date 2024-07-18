@@ -29,6 +29,7 @@ def main():
         sheet3=workbook['Z']
         if al.verificar_fuentes(sheet)==1 or al.verificar_fuentes(sheet2)==1 or al.verificar_impedancias(sheet3)==1:
            workbook.save(archivo_salida)
+           print("Hay errores en los datos colocados, verificar el archivo caso 1 para mas detalles")
            exit(1)
         workbook.save(archivo_salida)
         workbook=openpyxl.load_workbook(archivo_salida)

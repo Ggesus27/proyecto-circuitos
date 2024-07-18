@@ -19,7 +19,7 @@ def calcular_impedancias(workbook,frecuencia):
         R = R if R is not None else 0
         L = L if L is not None else 0
         C = C if C is not None else 0
-        if R==0 and L==0 and C==0: R=10**-9
+        if R==0 and L==0 and C==0: R=10**-6
         try:
             if C == 0:
                 Z = complex(R, 2 * np.pi*frecuencia * L*10**-3)  # Evitar la división por cero

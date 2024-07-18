@@ -3,7 +3,7 @@ import impedancias
 import vth_and_zth as th
 from v_fuente import calcular_voltajes_fuente as cal_vol
 from I_fuente import calcular_corrientes_fuente as cal_co
-import alertas
+import alertas as al
 import numpy as np
 from f_and_output import leer_frecuencia_y_salida as lf
 import potencias
@@ -23,14 +23,19 @@ def main():
 
     try:
         # Leer y verificar datos de entrada
-        #alertas.verificar_fuentes_y_impedancias(workbook)
-        
         frecuencia, archivo_salida=lf(workbook)
+        sheet=workbook['V_fuente']
+        sheet2=workbook['I_fuente']
+        sheet3=workbook['Z']
+        if al.verificar_fuentes(sheet)==1 or al.verificar_fuentes(sheet2)==1 or al.verificar_impedancias(sheet3)==1:
+           workbook.save(archivo_salida)
+           exit(1)
+        workbook.save(archivo_salida)
+        workbook=openpyxl.load_workbook(archivo_salida)
         # Calcular impedancias y convertir a fasores
         Z = impedancias.calcular_impedancias(workbook,frecuencia)
         v_fuente = cal_vol(workbook, frecuencia)
         i_fuente = cal_co(workbook, frecuencia)
-
         # Calcular admitancia
         Y = []
         for x in Z:

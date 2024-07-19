@@ -17,11 +17,7 @@ def calcular_voltajes_fuente(workbook,frecuencia):
         L = (L if L is not None else 0) * 1e-3  # mili
         C = (C if C is not None else 0) * 1e-6  # micro
         if R==0 and L==0 and C==0:
-<<<<<<< HEAD:nuevo programa/v_fuente.py
-            r=10**-6
-=======
             R=10**-6
->>>>>>> 231842099c242af79a691a682919fdbfd7e38876:v_fuente.py
         if C==0:
             impedancia = R + 1j * (2 * np.pi *frecuencia* L)
         else: 

@@ -44,9 +44,9 @@ def main():
         for x in Z:
             Y.append([x[0], x[1], 1 / x[2]])
         for x in v_fuente:
-            Y.append([0,x[0],1/x[2]])
+            Y.append([x[0],0,1/x[2]])
         for x in i_fuente:
-            Y.append([0,x[0],1/x[2]])
+            Y.append([x[0],0,1/x[2]])
         #calculando thevenin
         cant_nodos=th.Cantidad_nodos(Y)
         Matriz_admitancias=th.matriz_a(cant_nodos,Y)

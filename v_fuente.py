@@ -12,6 +12,7 @@ def calcular_voltajes_fuente(workbook,frecuencia):
         R= sheet[f'E{i}'].value
         L= sheet[f'F{i}'].value
         C= sheet[f'Z{i}'].value
+        w=2*np.pi*frecuencia
         if pico_voltaje is None or corrimiento_onda is None:
             continue  # O manejar el error de otra manera
         L = (L if L is not None else 0) * 1e-3  # mili
@@ -19,10 +20,10 @@ def calcular_voltajes_fuente(workbook,frecuencia):
         if R==0 and L==0 and C==0:
             R=10**-6
         if C==0:
-            impedancia = R + 1j * (2 * np.pi *frecuencia* L)
+            impedancia = R + 1j * (w* L)
         else: 
-            impedancia = R + 1j * ((2 * np.pi *frecuencia* L) - (1 / (2 * cmath.pi *frecuencia * C)))
-        angulo_fase = 2 * cmath.pi * frecuencia* corrimiento_onda
+            impedancia = R + 1j * ((w* L) - (1 / (w * C)))
+        angulo_fase = w*corrimiento_onda
         voltaje = pico_voltaje *complex(cmath.cos(angulo_fase),cmath.sin(angulo_fase))/ cmath.sqrt(2)
         voltajes_fuentes.append((nodo_referencia, voltaje,impedancia))
         i+=1

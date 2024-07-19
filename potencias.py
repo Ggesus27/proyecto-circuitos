@@ -10,7 +10,7 @@ def Calcular_potencias_impedancias(vth,impedancias,book,archivo_salida):
     potencia_total=0
     for x in impedancias:
       if x[0]!=0 and x[1]!=0:
-        pot=(vth[x[0]-1]-vth[x[1]-1])*(vth[x[0]-1]-vth[x[1]-1]).conjugate()/x[2]
+        pot=(vth[x[0]-1]-vth[x[1]-1])*((vth[x[0]-1]-vth[x[1]-1])/x[2]).conjugate()
       elif x[0]!=0:
         pot=vth[x[0]-1]*(vth[x[0]-1]/x[2]).conjugate()
       else:
@@ -65,7 +65,7 @@ def balance(p_t_f,p_t_z,book,archivo_salida):
   sheet['B2'].value=p_t_f.imag
   sheet['C2'].value=p_t_z.real
   sheet['D2'].value=p_t_z.imag
-  sheet['E2'].value=p_t_f.real-p_t_z.real
+  sheet['E2'].value=abs(p_t_f.real-p_t_z.real)
   sheet['F2'].value=abs(p_t_f.imag-p_t_z.imag)
   book.save(archivo_salida)
   

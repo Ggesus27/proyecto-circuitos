@@ -58,7 +58,7 @@ def matriz_b(I_fuente, cant_nodos,V_fuente=[[0,0,1],[0,0,1]]): #esta funcion cal
             b+=1
         if b==len(I_fuente): matriz.append(0)
     
-    for x in range(len(V_fuente)):
+    for x in range(len(V_fuente)+1):
         for y in V_fuente:
             if y[0]==x+1:
                 matriz[x]+=y[1]/y[2]

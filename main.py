@@ -23,6 +23,8 @@ def main():
 
     try:
         # Leer y verificar datos de entrada
+        if al.verificar_f_and_ouput(workbook)==1:
+            exit(1)
         frecuencia, archivo_salida=lf(workbook)
         sheet=workbook['V_fuente']
         sheet2=workbook['I_fuente']

@@ -154,3 +154,18 @@ def verificar_impedancias(sheet):
 
         i+=1
     return 0
+
+def verificar_f_and_ouput(book):
+    sheet=book['f_and_ouput']
+    if sheet['B1'].value==None:
+        print('falta valor de la frecuencia')
+        return 1
+    if type(sheet['B1'].value)!=type(2) and type(sheet['B1'].value)!=type(2.6):
+        print('Error, la frecuencia debe ser un numero')
+        return 1
+    if sheet['B2'].value==None:
+        print('Error, falta nombre del archivo donde se guardaran los resultados')
+        return 1
+    if sheet['B2'].value.find('.xlsx')==-1:
+        print("Error, el archivo en el que desea guardar resultados no es un archivo excel")
+        return 1

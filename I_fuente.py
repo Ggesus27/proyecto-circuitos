@@ -27,3 +27,4 @@ def calcular_corrientes_fuente(workbook,frecuencia):
         corrientes_fuentes.append((nodo_referencia, corriente,impedancia))
         i+=1
     return corrientes_fuentes
+

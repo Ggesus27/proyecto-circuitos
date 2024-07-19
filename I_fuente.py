@@ -28,4 +28,3 @@ def calcular_corrientes_fuente(workbook,frecuencia):
         i+=1
     return corrientes_fuentes
 
-#cesar es gay
